@@ -1,0 +1,39 @@
+{
+  "name": "desafio-btg",
+  "version": "1.0.0",
+  "description": "Desafio técnico da empresa BTG Pactual",
+  "main": "main.ts",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Immanuel-Victor/desafio-btg.git"
+  },
+  "keywords": [
+    "typescript",
+    "clean",
+    "architechture",
+    "classes",
+    "challenge"
+  ],
+  "author": "Immanuel-Victor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Immanuel-Victor/desafio-btg/issues"
+  },
+  "homepage": "https://github.com/Immanuel-Victor/desafio-btg#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.10",
+    "jest": "^30.0.4",
+    "jest-extended": "^6.0.0",
+    "jest-mock-extended": "^4.0.0",
+    "ts-jest": "^29.4.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
