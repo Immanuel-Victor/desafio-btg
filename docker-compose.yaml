@@ -1,0 +1,36 @@
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - otpnet
+    ports:
+      - '5432:5432'
+
+  app:
+    build:
+      context: .
+      dockerfile: .Dockerfile
+    container_name: otp-generator
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    networks:
+      - otpnet
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env
+
+networks:
+  otpnet:
+    driver: bridge

@@ -1,0 +1,32 @@
+import { Token } from "../../../domain/entities/Token";
+import { ITokenRepository } from "../../interfaces/ITokenRepository";
+import { IOTPGenerator } from "../../interfaces/otp/IOTPGenerator";
+
+interface ICreateTokenDto {
+    secret: string;
+    expirationTime: string;
+}
+
+interface ICreateTokenResponse {
+    tokenId: string;
+    otp: string;
+}
+
+export class CreateTokenUseCase {
+    public constructor(
+        private readonly _tokenRepository: ITokenRepository,
+        private readonly _otpGenerator: IOTPGenerator,
+    ) {}
+
+    public async execute(input: ICreateTokenDto): Promise<ICreateTokenResponse> {
+        const token = new Token(input.secret, input.expirationTime);
+
+        const tokenId = await this._tokenRepository.save(token);
+        const creationOtp = this._otpGenerator.generate(input.secret);
+
+        return {
+            tokenId: tokenId,
+            otp: creationOtp,
+        };
+    }
+}
