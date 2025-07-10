@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateTokenUseCase } from "../../../application/use-cases/create-token/CreateTokenUseCase";
+import { CreateTokenUseCase } from "../../../application/use-cases/token/create-token/CreateTokenUseCase";
 import { Request, Response } from "express";
 
 export function createTokenRouter(useCase: CreateTokenUseCase): Router {
@@ -7,7 +7,7 @@ export function createTokenRouter(useCase: CreateTokenUseCase): Router {
 
   router.post('/', async (req: Request, res: Response) => {
     try {
-        const {secret, expirationTime} = req.body;
+        const { secret, expirationTime } = req.body;
         const result = await useCase.execute({ secret, expirationTime })
         
         res.status(200).json({ message: "Success", data: result });

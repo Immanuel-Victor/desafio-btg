@@ -1,6 +1,6 @@
-import { Token } from "../../../domain/entities/Token";
-import { ITokenRepository } from "../../interfaces/ITokenRepository";
-import { IOTPGenerator } from "../../interfaces/otp/IOTPGenerator";
+import { Token } from "../../../../domain/entities/Token";
+import { ITokenRepository } from "../../../interfaces/ITokenRepository";
+import { IOTPGenerator } from "../../../interfaces/otp/IOTPGenerator";
 
 interface ICreateTokenDto {
     secret: string;

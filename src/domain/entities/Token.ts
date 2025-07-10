@@ -18,8 +18,16 @@ export class Token {
     return this._secret;
   }
 
+  set secret(value: string | undefined) {
+    this._secret = value;
+  }
+
   get expirationTime(): string {
     return this._expirationTime;
+  }
+
+  set expirationTime(value: string | undefined) {
+    this._expirationTime = value;
   }
 
   setId(id: string) {

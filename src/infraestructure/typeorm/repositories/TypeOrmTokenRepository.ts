@@ -9,6 +9,15 @@ export class TypeOrmTokenRepository implements ITokenRepository {
     constructor(private readonly encrypter: IEncrypter) {
         this.repository = TypeORMDataSource.getInstance().getRepository(Token)
     }
+    async findById(id: string): Promise<Token> {
+        const Token = await this.repository.findOne({
+            where: {
+                id
+            }
+        })
+
+        return Token;
+    }
 
     async save(token: Token): Promise<string> {
         const encryptedSecret = await this.encrypter.encrypt(token.secret);
