@@ -21,9 +21,9 @@ export class TypeOrmTokenRepository implements ITokenRepository {
 
     async save(token: Token): Promise<string> {
         const encryptedSecret = await this.encrypter.encrypt(token.secret);
-        const encryptedToken = new Token(
+        const encryptedToken = Token.fromExistingToken(
             encryptedSecret, 
-            token.expirationTime
+            token.expirationDate
         )
 
         const savedToken = await this.repository.save(encryptedToken)

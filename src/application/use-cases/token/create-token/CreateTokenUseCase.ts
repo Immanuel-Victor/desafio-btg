@@ -4,7 +4,7 @@ import { IOTPGenerator } from "../../../interfaces/otp/IOTPGenerator";
 
 interface ICreateTokenDto {
     secret: string;
-    expirationTime: string;
+    tokenDuration: string;
 }
 
 interface ICreateTokenResponse {
@@ -19,7 +19,8 @@ export class CreateTokenUseCase {
     ) {}
 
     public async execute(input: ICreateTokenDto): Promise<ICreateTokenResponse> {
-        const token = new Token(input.secret, input.expirationTime);
+        const token = Token.create(input.secret, input.tokenDuration);
+        console.log(token)
 
         const tokenId = await this._tokenRepository.save(token);
         const creationOtp = this._otpGenerator.generate(input.secret);

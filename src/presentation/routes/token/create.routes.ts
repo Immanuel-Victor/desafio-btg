@@ -19,7 +19,7 @@ export function createTokenRouter(useCase: CreateTokenUseCase): Router {
  *             properties:
  *               secret:
  *                 type: string
- *               expirationTime:
+ *               tokenDuration:
  *                 type: string
  *     responses:
  *       201:
@@ -41,8 +41,9 @@ export function createTokenRouter(useCase: CreateTokenUseCase): Router {
  */
   router.post('/', async (req: Request, res: Response) => {
     try {
-      const { secret, expirationTime } = req.body;
-      const result = await useCase.execute({ secret, expirationTime })
+      console.log(req.body)
+      const { secret, tokenDuration } = req.body;
+      const result = await useCase.execute({ secret, tokenDuration })
 
       res.status(201).json({ message: "Success", data: result });
     } catch (error) {

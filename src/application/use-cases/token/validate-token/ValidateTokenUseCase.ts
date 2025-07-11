@@ -9,6 +9,7 @@ interface IValidateTokenDto {
 }
 
 interface IValidateTokenResponse {
+    message?: string;
     isValid: boolean
 }
 
@@ -24,7 +25,9 @@ export class ValidateTokenUseCase {
 
         const token = await this._tokenRepository.findById(id);
 
-        if (!token) return { isValid: false };
+        if (!token) return { message: "token not found", isValid: false };
+
+        if(token.isExpired()) return { message: "token expired", isValid: false }
 
         const decryptedSecret = await this._encrypter.decrypt(token.secret);
         const expectedOtp = this._otpGenerator.generate(decryptedSecret);

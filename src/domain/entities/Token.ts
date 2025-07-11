@@ -1,10 +1,21 @@
 export class Token {
   private _id?: string;
+  private _expirationTime: Date;
 
   constructor(
     private _secret: string,
-    private _expirationTime: string
-  ) {}
+    expirationTime:  Date,
+  ) {
+    this._expirationTime = expirationTime;
+  }
+
+  public static create(secret: string, tokenDuration: string) {
+      return new Token(secret, this.calculateExpirationDate(tokenDuration))
+  }
+
+  public static fromExistingToken(secret: string, expirationDate: Date) {
+    return new Token(secret, expirationDate);
+  }
 
   get id(): string | undefined {
     return this._id;
@@ -23,11 +34,32 @@ export class Token {
   }
 
   get expirationTime(): string {
+    return this._expirationTime.toISOString();
+  }
+
+  get expirationDate(): Date {
     return this._expirationTime;
   }
 
-  set expirationTime(value: string | undefined) {
-    this._expirationTime = value;
+  public isExpired(): boolean {
+    return new Date() > this._expirationTime;
+  }
+
+    static calculateExpirationDate(duration: string): Date {
+    const match = duration.match(/^(\d+)([hdwy])$/i);
+    if (!match) throw new Error("Invalid token duration format");
+
+    const value = parseInt(match[1], 10);
+    const unit = match[2].toLowerCase();
+
+    const ms = {
+      h: 3600000,
+      d: 86400000,
+      w: 604800000,
+      y: 31536000000
+    }[unit];
+
+    return new Date(Date.now() + value * ms);
   }
 
   setId(id: string) {

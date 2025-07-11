@@ -16,7 +16,7 @@ export const TokenSchema = new EntitySchema<Token>({
             name: "secret"
         },
         expirationTime: {
-            type: "varchar",
+            type: "timestamp",
             name: "expiration_time"
         }
     }
