@@ -9,6 +9,8 @@ import { CreateTokenUseCase } from "./application/use-cases/token/create-token/C
 import { TOTPGenerator } from "./infraestructure/otp/TOTPGenerator";
 import { ValidateTokenUseCase } from "./application/use-cases/token/validate-token/ValidateTokenUseCase";
 import { GetOtpUseCase } from "./application/use-cases/token/get-otp/GetCurrentOtpUseCase";
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from "./infraestructure/swagger/swagger.config";
 
 async function bootstrap() {
   const app = express();
@@ -22,7 +24,6 @@ async function bootstrap() {
 
     TypeORMDataSource.configure(DatabaseConfig);
     await TypeORMDataSource.initialize();
-    console.log("Database connected");
 
     const tokenRepo = new TypeOrmTokenRepository(encrypter);
     const createTokenUseCase = new CreateTokenUseCase(tokenRepo, otpGenerator);
@@ -32,6 +33,7 @@ async function bootstrap() {
     app.use("/api/token", createTokenRouter(createTokenUseCase));
     app.use("/api/token", validateTokenRouter(validateTokenUseCase))
     app.use("/api/token/otp", getOtpRouter(getOtpTokenUseCase))
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
     app.listen(3000, () => console.log("Server running on port 3000"));
 
